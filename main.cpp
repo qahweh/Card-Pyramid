@@ -115,11 +115,24 @@ string getScoreString()
 	return s;
 }
 
+Card* drawNewCard()
+{
+    Card *c = new Card(rand()%52);
+	while(usedCards[c->getRaw()])
+	{
+	    c = new Card(rand()%52);
+	}
+	usedCards[c->getRaw()] = true;
+    return c;
+}
+
 int main()
 {
+
+
 	initscr();
 	srand(time(NULL));
-	
+
 	restart:
 	currentCard = new Card(rand()%52);
 	bool firstFrame = true;
@@ -154,12 +167,7 @@ int main()
 		if(f==98 && canPlaceHere(cx,cy))
 		{
 			pyramid[cx][cy] = currentCard->getRaw();
-			currentCard = new Card(rand()%52);
-			while(usedCards[currentCard->getRaw()])
-			{
-				currentCard = new Card(rand()%52);
-			}
-			usedCards[currentCard->getRaw()] = true;
+			currentCard = drawNewCard();
 		}
 		if(cx<0)cx=0;
 		if(cy<0)cy=0;
